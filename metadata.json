@@ -1,0 +1,6 @@
+{
+  "name": "CIVICTRACE — AI-Powered Civic Intelligence",
+  "description": "AI-Powered Civic Intelligence & Accountability Platform under the S.T.A.R.K. Initiative. Report, connect, analyze duplicate issues, and verify civic resolutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

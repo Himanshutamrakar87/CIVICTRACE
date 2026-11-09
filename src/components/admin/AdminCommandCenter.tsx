@@ -1,0 +1,472 @@
+import React, { useState } from 'react';
+import {
+  Layers,
+  CheckCircle2,
+  AlertTriangle,
+  Merge,
+  Filter,
+  Search,
+  Download,
+  Building,
+  Star,
+  ExternalLink,
+  Shield,
+  FileCheck,
+} from 'lucide-react';
+import { CivicReport, DepartmentStats, IncidentCluster } from '../../types/civic';
+import { StatusLabel, SeverityBadge } from '../common/StarkBadge';
+import { api } from '../../services/api';
+import { starkSound } from '../../services/sound';
+
+interface AdminCommandCenterProps {
+  reports: CivicReport[];
+  departments: DepartmentStats[];
+  clusters: IncidentCluster[];
+  onSelectReport: (reportId: string) => void;
+  onReportsUpdated: () => void;
+}
+
+export const AdminCommandCenter: React.FC<AdminCommandCenterProps> = ({
+  reports,
+  departments,
+  clusters,
+  onSelectReport,
+  onReportsUpdated,
+}) => {
+  const [activeTab, setActiveTab] = useState<'all' | 'duplicates' | 'departments' | 'feedback'>('all');
+  const [search, setSearch] = useState('');
+  const [selectedDept, setSelectedDept] = useState('ALL');
+  const [isMerging, setIsMerging] = useState(false);
+
+  // Filtered reports
+  const filteredReports = reports.filter((r) => {
+    const matchesSearch =
+      r.id.toLowerCase().includes(search.toLowerCase()) ||
+      r.title.toLowerCase().includes(search.toLowerCase()) ||
+      r.location.address.toLowerCase().includes(search.toLowerCase());
+    const matchesDept = selectedDept === 'ALL' || r.category === selectedDept;
+    return matchesSearch && matchesDept;
+  });
+
+  // Suspected or confirmed duplicates
+  const duplicateCandidates = reports.filter(
+    (r) => (r.aiAnalysis?.isDuplicateSuspected && !r.isDuplicate) || r.duplicateReportIds?.length
+  );
+
+  // Resolved reports with citizen feedback
+  const feedbackReports = reports.filter(
+    (r) => r.status === 'Resolved' && r.resolution?.citizenFeedback
+  );
+
+  // Export CSV function
+  const handleExportCSV = () => {
+    starkSound.playClick();
+    const headers = [
+      'Report ID',
+      'Title',
+      'Category',
+      'Severity',
+      'Status',
+      'Ward / Area',
+      'Address',
+      'Reported By',
+      'Date Logged',
+      'Priority Score',
+      'Assigned Department',
+      'Citizen Verified',
+    ];
+
+    const rows = reports.map((r) => [
+      `"${r.id}"`,
+      `"${r.title.replace(/"/g, '""')}"`,
+      `"${r.category}"`,
+      `"${r.severity}"`,
+      `"${r.status}"`,
+      `"${r.location.area}"`,
+      `"${r.location.address.replace(/"/g, '""')}"`,
+      `"${r.reportedBy.name}"`,
+      `"${new Date(r.createdAt).toISOString()}"`,
+      r.priorityScore,
+      `"${r.assignedDepartment || 'Unassigned'}"`,
+      r.resolution?.citizenVerified ? 'Yes' : 'No',
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `CIVICTRACE_Satna_Municipal_Export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    starkSound.playSuccess();
+  };
+
+  const handleMergeCluster = async (cluster: IncidentCluster) => {
+    if (!cluster.reportIds || cluster.reportIds.length < 2) return;
+    setIsMerging(true);
+    starkSound.playScan();
+    try {
+      const primaryId = cluster.primaryReportId;
+      const duplicates = cluster.reportIds.filter((id) => id !== primaryId);
+      await api.mergeReports({
+        primaryReportId: primaryId,
+        duplicateReportIds: duplicates,
+        mergeReason: `S.T.A.R.K. Multi-Sensor Duplicate Detection Cluster: ${cluster.name} (${cluster.reasoning})`,
+      });
+      starkSound.playSuccess();
+      onReportsUpdated();
+      alert(`Successfully merged ${duplicates.length} duplicate incident(s) into Master Docket [${primaryId}].`);
+    } catch (err: any) {
+      alert(`Error merging cluster: ${err.message}`);
+    } finally {
+      setIsMerging(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-cyan-900/30">
+        <div>
+          <h2 className="text-xl font-bold font-tech tracking-wide text-slate-100 uppercase flex items-center gap-2">
+            <Shield className="w-5 h-5 text-cyan-400" />
+            Administrator Command Center & Governance Workbench
+          </h2>
+          <p className="text-xs font-mono text-slate-400 mt-0.5">
+            Department dispatch, spatial-semantic duplicate merger, and municipal accountability audits
+          </p>
+        </div>
+
+        <button
+          onClick={handleExportCSV}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-mono font-semibold rounded bg-slate-900 border border-cyan-500/40 text-cyan-300 hover:bg-slate-800 transition-colors shadow-[0_0_12px_rgba(6,182,212,0.2)]"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span>Export CSV Ledger</span>
+        </button>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="flex items-center gap-2 p-1 bg-slate-900/80 rounded-lg border border-slate-800 text-xs font-mono overflow-x-auto">
+        <button
+          onClick={() => {
+            starkSound.playClick();
+            setActiveTab('all');
+          }}
+          className={`px-3 py-1.5 rounded transition-colors whitespace-nowrap ${
+            activeTab === 'all'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          All Complaints ({reports.length})
+        </button>
+
+        <button
+          onClick={() => {
+            starkSound.playClick();
+            setActiveTab('duplicates');
+          }}
+          className={`px-3 py-1.5 rounded transition-colors whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'duplicates'
+              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Merge className="w-3.5 h-3.5 text-amber-400" />
+          <span>Duplicate Detection Matrix ({clusters.length})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            starkSound.playClick();
+            setActiveTab('departments');
+          }}
+          className={`px-3 py-1.5 rounded transition-colors whitespace-nowrap ${
+            activeTab === 'departments'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Department Performance ({departments.length})
+        </button>
+
+        <button
+          onClick={() => {
+            starkSound.playClick();
+            setActiveTab('feedback');
+          }}
+          className={`px-3 py-1.5 rounded transition-colors whitespace-nowrap ${
+            activeTab === 'feedback'
+              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          Citizen Verification Audit ({feedbackReports.length})
+        </button>
+      </div>
+
+      {/* TAB 1: ALL COMPLAINTS TABLE */}
+      {activeTab === 'all' && (
+        <div className="stark-panel rounded-xl p-4 border border-cyan-500/20 space-y-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                placeholder="Filter by ID, keywords, address..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-800 rounded pl-9 pr-3 py-1.5 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/40"
+              />
+            </div>
+
+            <select
+              value={selectedDept}
+              onChange={(e) => setSelectedDept(e.target.value)}
+              className="bg-slate-900 border border-slate-800 text-slate-300 rounded px-2.5 py-1.5 text-xs font-mono focus:outline-none focus:border-cyan-500/40"
+            >
+              <option value="ALL">All Categories</option>
+              <option value="Road Maintenance">Road Maintenance</option>
+              <option value="Sanitation">Sanitation</option>
+              <option value="Water Department">Water Department</option>
+              <option value="Electricity">Electricity</option>
+              <option value="Drainage">Drainage</option>
+              <option value="Public Infrastructure">Public Infrastructure</option>
+            </select>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-mono">
+              <thead className="bg-slate-900/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+                <tr>
+                  <th className="py-2.5 px-3">Report ID</th>
+                  <th className="py-2.5 px-3">Title & Location</th>
+                  <th className="py-2.5 px-3">Category</th>
+                  <th className="py-2.5 px-3">Severity</th>
+                  <th className="py-2.5 px-3">Status</th>
+                  <th className="py-2.5 px-3">Priority</th>
+                  <th className="py-2.5 px-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/80 text-slate-300">
+                {filteredReports.map((report) => (
+                  <tr
+                    key={report.id}
+                    className="hover:bg-slate-900/50 transition-colors cursor-pointer group"
+                    onClick={() => {
+                      starkSound.playClick();
+                      onSelectReport(report.id);
+                    }}
+                  >
+                    <td className="py-2.5 px-3 font-semibold text-cyan-400 whitespace-nowrap">
+                      {report.id}
+                    </td>
+                    <td className="py-2.5 px-3 max-w-xs">
+                      <div className="font-medium text-slate-200 truncate group-hover:text-cyan-300 transition-colors">
+                        {report.title}
+                      </div>
+                      <div className="text-[11px] text-slate-500 truncate">
+                        {report.location.area} · {report.location.address}
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-3 whitespace-nowrap">{report.category}</td>
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <SeverityBadge severity={report.severity} />
+                    </td>
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      <StatusLabel status={report.status} />
+                    </td>
+                    <td className="py-2.5 px-3 font-bold tabular-nums text-slate-200 whitespace-nowrap">
+                      {report.priorityScore}/100
+                    </td>
+                    <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                      <button className="px-2 py-1 text-[11px] rounded bg-slate-900 border border-slate-800 text-cyan-400 group-hover:border-cyan-500/40">
+                        Inspect Docket
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: DUPLICATE DETECTION MATRIX */}
+      {activeTab === 'duplicates' && (
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-xs font-mono space-y-2">
+            <div className="flex items-center gap-2 text-amber-300 font-bold uppercase">
+              <Merge className="w-4 h-4 text-amber-400" />
+              <span>S.T.A.R.K. SPATIAL-SEMANTIC DUPLICATE DETECTION WORKBENCH</span>
+            </div>
+            <p className="text-slate-300 leading-relaxed">
+              Autonomous algorithms correlate GPS coordinates (&lt; 350m proximity), category alignment, photo features, and natural language descriptions to group duplicate citizen complaints. Merging links duplicate tickets to a primary master docket while combining citizen upvotes and public impact weighting.
+            </p>
+          </div>
+
+          {clusters.map((cluster) => (
+            <div key={cluster.id} className="stark-panel rounded-xl p-5 border border-amber-500/30 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold text-amber-400 uppercase">
+                      {cluster.name}
+                    </span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 text-rose-300 font-bold">
+                      Impact: {cluster.combinedPublicImpact}/10
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Spatial Radius: {cluster.radiusMeters}m · Category: {cluster.category}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => handleMergeCluster(cluster)}
+                  disabled={isMerging}
+                  className="px-4 py-2 text-xs font-mono font-bold rounded bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all flex items-center gap-1.5"
+                >
+                  <Merge className="w-3.5 h-3.5" />
+                  <span>Execute Merge to Master Docket [{cluster.primaryReportId}]</span>
+                </button>
+              </div>
+
+              {/* Rationale */}
+              <div className="p-3 rounded bg-slate-900/80 border border-slate-800 text-xs font-mono text-slate-300">
+                <span className="text-amber-400 font-semibold block mb-0.5">AI Correlation Rationale:</span>
+                {cluster.reasoning}
+              </div>
+
+              {/* Clustered Incident Rows */}
+              <div className="space-y-2">
+                <span className="text-[11px] font-mono text-slate-400 uppercase">
+                  Flagged Incident Reports in Cluster ({cluster.reportIds.length}):
+                </span>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {cluster.reportIds.map((repId) => {
+                    const r = reports.find((item) => item.id === repId);
+                    if (!r) return null;
+                    const isPrimary = repId === cluster.primaryReportId;
+                    return (
+                      <div
+                        key={repId}
+                        onClick={() => {
+                          starkSound.playClick();
+                          onSelectReport(repId);
+                        }}
+                        className={`p-3 rounded-lg border transition-colors cursor-pointer ${
+                          isPrimary
+                            ? 'bg-cyan-950/20 border-cyan-500/50'
+                            : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between text-xs font-mono mb-1">
+                          <span className={isPrimary ? 'text-cyan-400 font-bold' : 'text-slate-300'}>
+                            {repId} {isPrimary ? '(Master)' : ''}
+                          </span>
+                          <StatusLabel status={r.status} />
+                        </div>
+                        <h5 className="text-xs font-semibold text-slate-200 line-clamp-2 mb-1">
+                          {r.title}
+                        </h5>
+                        <p className="text-[11px] text-slate-400 truncate">
+                          by {r.reportedBy.name} ({r.location.address})
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* TAB 3: DEPARTMENT PERFORMANCE */}
+      {activeTab === 'departments' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {departments.map((dept) => (
+            <div key={dept.name} className="stark-panel rounded-xl p-5 border border-cyan-500/20 space-y-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-bold text-slate-100">{dept.name}</h4>
+                  <p className="text-xs font-mono text-cyan-400 mt-0.5">Head: {dept.headOfficer}</p>
+                </div>
+                <Building className="w-5 h-5 text-cyan-500/60" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800">
+                <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                  <span className="text-[10px] text-slate-500 uppercase block">Active Backlog</span>
+                  <span className="text-lg font-bold text-amber-400 tabular-nums">{dept.activeCases}</span>
+                </div>
+                <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                  <span className="text-[10px] text-slate-500 uppercase block">Resolved to Date</span>
+                  <span className="text-lg font-bold text-emerald-400 tabular-nums">{dept.resolvedCases}</span>
+                </div>
+                <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                  <span className="text-[10px] text-slate-500 uppercase block">Avg Response</span>
+                  <span className="text-base font-bold text-slate-200 tabular-nums">{dept.avgResolutionHours} hrs</span>
+                </div>
+                <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                  <span className="text-[10px] text-slate-500 uppercase block">Satisfaction</span>
+                  <span className="text-base font-bold text-cyan-300 tabular-nums">{dept.satisfactionRate}%</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* TAB 4: CITIZEN VERIFICATION AUDIT */}
+      {activeTab === 'feedback' && (
+        <div className="stark-panel rounded-xl p-5 border border-emerald-500/20 space-y-4">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase pb-2 border-b border-slate-800">
+            <FileCheck className="w-4 h-4" />
+            <span>CITIZEN RESOLUTION CONFIRMATION LOGS</span>
+          </div>
+
+          <div className="space-y-3">
+            {feedbackReports.map((r) => (
+              <div
+                key={r.id}
+                onClick={() => {
+                  starkSound.playClick();
+                  onSelectReport(r.id);
+                }}
+                className="p-3.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-colors cursor-pointer space-y-2 text-xs font-mono"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-cyan-400 font-semibold">{r.id}</span>
+                    <span className="text-slate-400">·</span>
+                    <span className="text-slate-200 font-sans font-medium">{r.title}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[...Array(r.resolution?.citizenSatisfactionRating || 5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-slate-300 italic font-sans text-xs bg-slate-950/60 p-2.5 rounded border border-slate-800/80">
+                  "{r.resolution?.citizenFeedback}"
+                </p>
+
+                <div className="flex justify-between text-[11px] text-slate-500 pt-1">
+                  <span>Verified by {r.reportedBy.name}</span>
+                  <span>{r.resolution?.citizenVerificationDate ? new Date(r.resolution.citizenVerificationDate).toLocaleDateString() : 'Verified'}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
