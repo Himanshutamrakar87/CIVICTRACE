@@ -159,30 +159,30 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Success Confirmation Modal */}
       {submittedReport && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="stark-panel rounded-xl p-6 max-w-md w-full border border-cyan-400/50 shadow-2xl text-center space-y-4">
-            <div className="w-14 h-14 mx-auto rounded-full bg-cyan-950 border-2 border-cyan-400 flex items-center justify-center text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md">
+          <div className="stark-panel rounded-2xl p-6 max-w-md w-full border border-blue-200 dark:border-cyan-400/50 bg-white dark:bg-slate-900 shadow-2xl text-center space-y-4">
+            <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 dark:bg-cyan-950 border-2 border-blue-600 dark:border-cyan-400 flex items-center justify-center text-blue-600 dark:text-cyan-400 shadow-sm">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-xl font-bold font-tech tracking-wide text-slate-100 uppercase">
+              <h3 className="text-xl font-bold font-tech tracking-wide text-slate-900 dark:text-slate-100 uppercase">
                 CIVIC INCIDENT LOGGED
               </h3>
-              <p className="text-xs font-mono text-cyan-400">
-                Tracking ID: <span className="font-bold underline">{submittedReport.id}</span>
+              <p className="text-xs font-mono text-blue-600 dark:text-cyan-400 font-semibold">
+                Tracking ID: <span className="underline">{submittedReport.id}</span>
               </p>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
               Your report has been successfully ingested into the Satna Municipal intelligence network. S.T.A.R.K. AI has dispatched telemetry to the{' '}
-              <strong className="text-cyan-300">{submittedReport.category}</strong> department.
+              <strong className="text-blue-700 dark:text-cyan-300">{submittedReport.category}</strong> department.
             </p>
 
-            <div className="p-3 rounded bg-slate-900/80 border border-slate-800 text-left text-xs font-mono space-y-1">
-              <div className="text-slate-400">Status: <span className="text-cyan-300 font-semibold">{submittedReport.status}</span></div>
-              <div className="text-slate-400">Assigned Ward: <span className="text-slate-200">{submittedReport.location.area}</span></div>
-              <div className="text-slate-400">Severity: <span className="text-amber-400 font-semibold">{submittedReport.severity}</span></div>
+            <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-left text-xs font-mono space-y-1">
+              <div className="text-slate-500 dark:text-slate-400">Status: <span className="text-blue-700 dark:text-cyan-300 font-bold">{submittedReport.status}</span></div>
+              <div className="text-slate-500 dark:text-slate-400">Assigned Ward: <span className="text-slate-800 dark:text-slate-200 font-medium">{submittedReport.location.area}</span></div>
+              <div className="text-slate-500 dark:text-slate-400">Severity: <span className="text-amber-700 dark:text-amber-400 font-bold">{submittedReport.severity}</span></div>
             </div>
 
             <div className="flex items-center gap-3 pt-2">
@@ -190,7 +190,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                 onClick={() => {
                   onSuccess(submittedReport);
                 }}
-                className="flex-1 py-2 text-xs font-mono font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+                className="flex-1 py-2 text-xs font-mono font-bold text-white bg-blue-600 hover:bg-blue-700 dark:bg-cyan-400 dark:text-slate-950 rounded-lg transition-all shadow-sm"
               >
                 Track Investigation Docket
               </button>
@@ -200,20 +200,20 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-cyan-900/30">
+      <div className="flex items-center justify-between pb-3 border-b border-blue-100 dark:border-cyan-900/30">
         <div>
-          <h2 className="text-xl font-bold font-tech tracking-wide text-slate-100 uppercase flex items-center gap-2">
-            <Shield className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-xl font-bold font-tech tracking-wide text-slate-900 dark:text-slate-100 uppercase flex items-center gap-2">
+            <Shield className="w-5 h-5 text-blue-600 dark:text-cyan-400" />
             Citizen Civic Reporting Portal
           </h2>
-          <p className="text-xs font-mono text-slate-400 mt-0.5">
+          <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mt-0.5">
             Submit public infrastructure defects with AI damage verification & GPS geotagging
           </p>
         </div>
 
         <button
           onClick={onCancel}
-          className="text-xs font-mono px-3 py-1.5 rounded border border-slate-800 hover:bg-slate-900 text-slate-400 hover:text-slate-200 transition-colors"
+          className="text-xs font-mono px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors shadow-xs"
         >
           Cancel
         </button>
@@ -225,8 +225,8 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
           <div className="space-y-4">
             {/* Title */}
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1">
-                Issue Title <span className="text-rose-400">*</span>
+              <label className="block text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Issue Title <span className="text-rose-500">*</span>
               </label>
               <input
                 type="text"
@@ -234,19 +234,19 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                 placeholder="e.g. Deep Pothole Threatening Two-Wheelers on Birla Road"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-500/50 rounded px-3 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-500 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-200 placeholder-slate-400 focus:outline-none shadow-xs"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1">
-                Issue Category <span className="text-rose-400">*</span>
+              <label className="block text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Issue Category <span className="text-rose-500">*</span>
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as IssueCategory)}
-                className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-500/50 rounded px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-500 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-200 focus:outline-none shadow-xs"
               >
                 <option value="Road Maintenance">Road Maintenance & Highway</option>
                 <option value="Sanitation">Sanitation & Garbage Management</option>
@@ -261,10 +261,10 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
             {/* Description */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="text-xs font-mono text-slate-300">
-                  Detailed Description <span className="text-rose-400">*</span>
+                <label className="text-xs font-mono font-semibold text-slate-700 dark:text-slate-300">
+                  Detailed Description <span className="text-rose-500">*</span>
                 </label>
-                <span className="text-[10px] font-mono text-slate-500">Provide exact physical hazards</span>
+                <span className="text-[10px] font-mono text-slate-400">Provide exact physical hazards</span>
               </div>
               <textarea
                 required
@@ -272,13 +272,13 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                 placeholder="Describe size, depth, duration, hazards, and exact landmark..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-500/50 rounded px-3 py-2 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-500 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-200 placeholder-slate-400 focus:outline-none shadow-xs"
               />
             </div>
 
             {/* Area & Location */}
-            <div className="space-y-3 p-3.5 rounded bg-slate-900/60 border border-slate-800">
-              <div className="text-xs font-mono font-semibold text-cyan-400 flex items-center gap-1.5">
+            <div className="space-y-3 p-4 rounded-xl bg-blue-50/40 dark:bg-slate-900/60 border border-blue-100 dark:border-slate-800 shadow-xs">
+              <div className="text-xs font-mono font-bold text-blue-700 dark:text-cyan-400 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" />
                 <span>Geographic Pinpoint (Satna, MP)</span>
               </div>
@@ -290,10 +290,10 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     key={a.name}
                     type="button"
                     onClick={() => handleAreaChange(a.name)}
-                    className={`px-2 py-0.5 text-[11px] font-mono rounded transition-colors ${
+                    className={`px-2.5 py-1 text-[11px] font-mono rounded-lg transition-colors ${
                       area === a.name
-                        ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold'
-                        : 'bg-slate-800/80 text-slate-400 hover:text-slate-200'
+                        ? 'bg-blue-600 text-white font-bold shadow-xs'
+                        : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-300'
                     }`}
                   >
                     {a.name}
@@ -302,7 +302,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono text-slate-400 mb-1">
+                <label className="block text-[11px] font-mono text-slate-600 dark:text-slate-400 mb-1">
                   Street Address / Landmark
                 </label>
                 <input
@@ -311,7 +311,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                   placeholder="e.g. Near Railway Crossing Gate No. 3"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500/40"
+                  className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs font-mono text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -323,7 +323,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     step="0.0001"
                     value={latitude}
                     onChange={(e) => setLatitude(parseFloat(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-300"
+                    className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-slate-800 dark:text-slate-300"
                   />
                 </div>
                 <div>
@@ -333,7 +333,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     step="0.0001"
                     value={longitude}
                     onChange={(e) => setLongitude(parseFloat(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-300"
+                    className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded px-2 py-1 text-slate-800 dark:text-slate-300"
                   />
                 </div>
               </div>
@@ -341,7 +341,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
 
             {/* Severity Radio Group */}
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1.5">
+              <label className="block text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
                 Observed Severity Level
               </label>
               <div className="grid grid-cols-4 gap-2 text-xs font-mono">
@@ -353,14 +353,14 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                       starkSound.playClick();
                       setSeverity(lvl);
                     }}
-                    className={`py-1.5 rounded border text-center transition-all ${
+                    className={`py-1.5 rounded-lg border text-center transition-all ${
                       severity === lvl
                         ? lvl === 'CRITICAL'
-                          ? 'bg-rose-950/60 border-rose-500 text-rose-300 font-bold shadow-[0_0_10px_rgba(244,63,94,0.3)]'
+                          ? 'bg-rose-50 border-rose-300 text-rose-700 font-bold shadow-xs dark:bg-rose-950/60 dark:border-rose-500 dark:text-rose-300'
                           : lvl === 'HIGH'
-                          ? 'bg-amber-950/60 border-amber-500 text-amber-300 font-bold'
-                          : 'bg-cyan-950/60 border-cyan-500 text-cyan-300 font-bold'
-                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                          ? 'bg-amber-50 border-amber-300 text-amber-800 font-bold shadow-xs dark:bg-amber-950/60 dark:border-amber-500 dark:text-amber-300'
+                          : 'bg-blue-50 border-blue-300 text-blue-700 font-bold shadow-xs dark:bg-cyan-950/60 dark:border-cyan-500 dark:text-cyan-300'
+                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900'
                     }`}
                   >
                     {lvl}
@@ -373,14 +373,14 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
           {/* Right Column: Photo Evidence & AI Analysis Engine */}
           <div className="space-y-4">
             {/* Photo Evidence Box */}
-            <div className="stark-panel rounded-lg p-4 border border-cyan-500/20 space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono text-slate-300">
-                <span className="font-semibold text-cyan-400 uppercase">PHOTOGRAPHIC EVIDENCE</span>
-                <span className="text-[10px] text-slate-500">GEO-STAMPED</span>
+            <div className="stark-panel rounded-xl p-5 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900/60 shadow-sm space-y-3">
+              <div className="flex items-center justify-between text-xs font-mono text-slate-700 dark:text-slate-300">
+                <span className="font-bold text-blue-700 dark:text-cyan-400 uppercase">PHOTOGRAPHIC EVIDENCE</span>
+                <span className="text-[10px] text-slate-400">GEO-STAMPED</span>
               </div>
 
               {/* Photo Preview Container */}
-              <div className="relative aspect-video rounded-lg overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center">
+              <div className="relative aspect-video rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 flex items-center justify-center">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
@@ -389,20 +389,20 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="text-center text-slate-500 text-xs font-mono p-4">
+                  <div className="text-center text-slate-400 text-xs font-mono p-4">
                     <Upload className="w-8 h-8 mx-auto mb-2 opacity-40" />
                     <span>No photo uploaded</span>
                   </div>
                 )}
-                <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-slate-950/80 backdrop-blur border border-slate-800 text-[10px] font-mono text-cyan-400">
+                <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-white/90 dark:bg-slate-950/80 backdrop-blur border border-slate-200 dark:border-slate-800 text-[10px] font-mono text-blue-700 dark:text-cyan-400 font-medium">
                   SATNA GPS: {latitude.toFixed(4)}°N, {longitude.toFixed(4)}°E
                 </div>
               </div>
 
-              {/* Choose Simulated Photo or Upload File */}
+              {/* Choose Preset Photo or Upload File */}
               <div className="flex flex-wrap items-center gap-2 pt-1">
-                <label className="cursor-pointer px-3 py-1.5 text-xs font-mono rounded bg-slate-900 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-colors flex items-center gap-1.5">
-                  <Upload className="w-3.5 h-3.5" />
+                <label className="cursor-pointer px-3 py-1.5 text-xs font-mono rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-blue-400 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 shadow-xs">
+                  <Upload className="w-3.5 h-3.5 text-blue-600" />
                   <span>Upload Local File</span>
                   <input
                     type="file"
@@ -421,7 +421,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     setCategory('Road Maintenance');
                     starkSound.playClick();
                   }}
-                  className="px-2 py-1 text-[11px] font-mono rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                  className="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400"
                 >
                   Preset: Pothole
                 </button>
@@ -435,7 +435,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                     setCategory('Water Department');
                     starkSound.playClick();
                   }}
-                  className="px-2 py-1 text-[11px] font-mono rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200"
+                  className="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400"
                 >
                   Preset: Water Leak
                 </button>
@@ -443,10 +443,10 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
             </div>
 
             {/* S.T.A.R.K. AI Analysis Trigger & Insights Dock */}
-            <div className="stark-panel rounded-lg p-4 border border-cyan-500/30 space-y-3 bg-cyan-950/10">
+            <div className="stark-panel rounded-xl p-5 border border-blue-200 dark:border-cyan-500/30 bg-blue-50/50 dark:bg-cyan-950/10 shadow-sm space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-mono text-cyan-400 font-semibold">
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                <div className="flex items-center gap-1.5 text-xs font-mono text-blue-700 dark:text-cyan-400 font-bold">
+                  <Sparkles className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
                   <span>S.T.A.R.K. AI CIVIC CLASSIFIER</span>
                 </div>
 
@@ -454,7 +454,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                   type="button"
                   onClick={handleTriggerAI}
                   disabled={isAnalyzing}
-                  className="px-2.5 py-1 text-xs font-mono font-semibold rounded bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 hover:bg-cyan-500/30 disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
+                  className="px-3 py-1.5 text-xs font-mono font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-500/20 dark:border dark:border-cyan-400/50 dark:text-cyan-300 disabled:opacity-50 transition-all flex items-center gap-1.5 shadow-xs"
                 >
                   {isAnalyzing ? (
                     <>
@@ -471,48 +471,48 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
               </div>
 
               {analysisError && (
-                <div className="p-2 rounded bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs font-mono">
+                <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono">
                   {analysisError}
                 </div>
               )}
 
               {aiAnalysis ? (
-                <div className="space-y-2.5 text-xs font-mono border-t border-cyan-900/40 pt-2.5">
+                <div className="space-y-2.5 text-xs font-mono border-t border-blue-200 dark:border-cyan-900/40 pt-2.5">
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <span className="text-[10px] text-slate-500 block">AI Category (Confidence)</span>
-                      <span className="text-cyan-300 font-semibold">{aiAnalysis.categoryRecommendation}</span>
+                    <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-xs">
+                      <span className="text-[10px] text-slate-500 uppercase block font-semibold">AI Category (Confidence)</span>
+                      <span className="text-blue-700 dark:text-cyan-300 font-bold">{aiAnalysis.categoryRecommendation}</span>
                       <span className="text-slate-500 text-[10px] ml-1">({aiAnalysis.categoryConfidence}%)</span>
                     </div>
 
-                    <div className="p-2 rounded bg-slate-900/80 border border-slate-800">
-                      <span className="text-[10px] text-slate-500 block">Urgency / Public Impact</span>
-                      <span className="text-amber-400 font-bold">{aiAnalysis.urgencyScore}/10</span>
+                    <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 shadow-xs">
+                      <span className="text-[10px] text-slate-500 uppercase block font-semibold">Urgency / Public Impact</span>
+                      <span className="text-amber-700 dark:text-amber-400 font-bold">{aiAnalysis.urgencyScore}/10</span>
                       <span className="text-slate-500 text-[10px]"> · Impact: {aiAnalysis.publicImpactScore}/10</span>
                     </div>
                   </div>
 
                   {aiAnalysis.isDuplicateSuspected && (
-                    <div className="p-2 rounded bg-amber-950/40 border border-amber-500/40 text-amber-300 flex items-start gap-2 text-xs">
-                      <Layers className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
+                    <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 dark:bg-amber-950/40 dark:border-amber-500/40 dark:text-amber-300 flex items-start gap-2 text-xs shadow-xs">
+                      <Layers className="w-4 h-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
                       <div>
                         <strong className="block font-semibold">Potential Duplicate Incident Detected</strong>
-                        <span className="text-[11px] text-slate-300">
+                        <span className="text-[11px] text-slate-600 dark:text-slate-300">
                           AI identified matching spatial-semantic patterns within 350m of {aiAnalysis.suspectedDuplicateIds?.join(', ')}.
                         </span>
                       </div>
                     </div>
                   )}
 
-                  <div className="p-2 rounded bg-slate-900/60 border border-slate-800/80 text-[11px] text-slate-300 space-y-1">
-                    <div className="text-slate-400 font-semibold">AI Rationale ({aiAnalysis.modelUsed}):</div>
+                  <div className="p-3 rounded-lg bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 text-[11px] text-slate-700 dark:text-slate-300 space-y-1 shadow-xs">
+                    <div className="text-blue-700 dark:text-cyan-400 font-semibold">AI Rationale ({aiAnalysis.modelUsed}):</div>
                     <p>{aiAnalysis.reasoning}</p>
                   </div>
 
                   {aiAnalysis.safetyHazardRisks.length > 0 && (
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-slate-400">Identified Safety Risks:</span>
-                      <ul className="list-disc list-inside text-[11px] text-slate-300 space-y-0.5">
+                    <div className="space-y-1 pt-1">
+                      <span className="text-[10px] font-mono text-slate-500 uppercase font-semibold">Identified Safety Risks:</span>
+                      <ul className="list-disc list-inside text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5">
                         {aiAnalysis.safetyHazardRisks.map((risk, idx) => (
                           <li key={idx}>{risk}</li>
                         ))}
@@ -522,7 +522,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
                 </div>
               ) : (
                 <div className="py-4 text-center text-slate-500 text-xs font-mono flex items-center justify-center gap-1.5">
-                  <Info className="w-3.5 h-3.5 text-cyan-500/60" />
+                  <Info className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-500/60" />
                   <span>Click "Run AI Analysis" to evaluate severity and check for duplicates.</span>
                 </div>
               )}
@@ -531,11 +531,11 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-xs font-mono rounded border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900 transition-colors"
+            className="px-4 py-2 text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 transition-colors shadow-xs"
           >
             Cancel
           </button>
@@ -543,7 +543,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({ onSuccess,
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2.5 text-xs font-mono font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-blue-400 hover:from-cyan-300 hover:to-blue-300 rounded shadow-[0_0_20px_rgba(6,182,212,0.4)] disabled:opacity-50 transition-all flex items-center gap-2"
+            className="px-6 py-2.5 text-xs font-mono font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-lg shadow-sm disabled:opacity-50 transition-all flex items-center gap-2"
           >
             {isSubmitting ? (
               <>

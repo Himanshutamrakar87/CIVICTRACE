@@ -28,6 +28,7 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
 
   const [selectedArea, setSelectedArea] = useState<string>('ALL');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -55,20 +56,21 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
         zoomControl: true,
       });
 
-      // CartoDB Dark Matter or OpenStreetMap with dark tiles
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      const isDark = document.documentElement.classList.contains('dark');
+      const tileUrl = isDark
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+      const tiles = L.tileLayer(tileUrl, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
         maxZoom: 19,
         subdomains: 'abcd',
       }).addTo(map);
 
+      tileLayerRef.current = tiles;
       mapInstanceRef.current = map;
       markersLayerRef.current = L.layerGroup().addTo(map);
     }
-
-    return () => {
-      // Keep instance intact across subtle tab toggles if needed, or clean up
-    };
   }, []);
 
   // Update Markers & Clusters when filtered reports change
@@ -83,15 +85,15 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
     clusters.forEach((cluster) => {
       const circle = L.circle([cluster.centerCoordinates.latitude, cluster.centerCoordinates.longitude], {
         radius: cluster.radiusMeters || 60,
-        color: '#ef4444',
-        fillColor: '#ef4444',
-        fillOpacity: 0.18,
-        weight: 1.5,
-        dashArray: '4, 4',
+        color: '#dc2626',
+        fillColor: '#dc2626',
+        fillOpacity: 0.15,
+        weight: 2,
+        dashArray: '5, 5',
       });
 
       circle.bindTooltip(
-        `<div style="font-family: monospace; font-size: 11px; color: #f87171; background: #020617; border: 1px solid #ef4444; padding: 4px 8px; border-radius: 4px;">
+        `<div style="font-family: monospace; font-size: 11px; color: #991b1b; background: #ffffff; border: 1px solid #f87171; padding: 4px 8px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
           <strong>${cluster.name}</strong><br/>
           ${cluster.reportIds.length} Linked Reports · Impact: ${cluster.combinedPublicImpact}/10
         </div>`,
@@ -105,15 +107,15 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
     filteredReports.forEach((report) => {
       const isCritical = report.severity === 'CRITICAL';
       const isResolved = report.status === 'Resolved';
-      const color = isResolved ? '#10b981' : isCritical ? '#ef4444' : report.severity === 'HIGH' ? '#f59e0b' : '#06b6d4';
+      const color = isResolved ? '#059669' : isCritical ? '#dc2626' : report.severity === 'HIGH' ? '#d97706' : '#2563eb';
 
       const customIcon = L.divIcon({
         className: 'custom-stark-marker',
         html: `
           <div style="
             position: relative;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -123,32 +125,32 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
               isCritical
                 ? `<div style="
                     position: absolute;
-                    width: 32px;
-                    height: 32px;
+                    width: 34px;
+                    height: 34px;
                     border-radius: 50%;
-                    border: 1px solid ${color};
+                    border: 2px solid ${color};
                     animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-                    opacity: 0.75;
+                    opacity: 0.6;
                   "></div>`
                 : ''
             }
             <div style="
-              width: 18px;
-              height: 18px;
+              width: 20px;
+              height: 20px;
               border-radius: 50%;
-              background: #020617;
-              border: 2px solid ${color};
-              box-shadow: 0 0 10px ${color};
+              background: #ffffff;
+              border: 2.5px solid ${color};
+              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
               display: flex;
               align-items: center;
               justify-content: center;
             ">
-              <div style="width: 6px; height: 6px; border-radius: 50%; background: ${color};"></div>
+              <div style="width: 7px; height: 7px; border-radius: 50%; background: ${color};"></div>
             </div>
           </div>
         `,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
       });
 
       const marker = L.marker([report.location.latitude, report.location.longitude], {
@@ -177,14 +179,14 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
   return (
     <div className="space-y-4">
       {/* Top Map Controls Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-lg stark-panel border border-cyan-500/20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl stark-panel border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900 shadow-sm">
         <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-cyan-400" />
-          <span className="text-xs font-mono font-semibold text-slate-100 uppercase">
+          <MapPin className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
+          <span className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase">
             SATNA CIVIC INTELLIGENCE GIS MAP
           </span>
-          <span className="text-slate-500">·</span>
-          <span className="text-xs font-mono text-cyan-400 tabular-nums">
+          <span className="text-slate-300 dark:text-slate-600">·</span>
+          <span className="text-xs font-mono text-blue-600 dark:text-cyan-400 font-bold tabular-nums">
             {filteredReports.length} Active Nodes Plotted
           </span>
         </div>
@@ -195,7 +197,7 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
           <select
             value={selectedArea}
             onChange={(e) => setSelectedArea(e.target.value)}
-            className="bg-slate-900 border border-slate-800 text-slate-300 rounded px-2.5 py-1 focus:outline-none focus:border-cyan-500/40 text-xs"
+            className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 text-xs shadow-xs"
           >
             <option value="ALL">All Satna Wards</option>
             {areas.filter((a) => a !== 'ALL').map((a) => (
@@ -207,7 +209,7 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-slate-900 border border-slate-800 text-slate-300 rounded px-2.5 py-1 focus:outline-none focus:border-cyan-500/40 text-xs"
+            className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 text-xs shadow-xs"
           >
             <option value="ALL">All Categories</option>
             {categories.map((c) => (
@@ -219,7 +221,7 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-900 border border-slate-800 text-slate-300 rounded px-2.5 py-1 focus:outline-none focus:border-cyan-500/40 text-xs"
+            className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 text-xs shadow-xs"
           >
             <option value="ALL">All Statuses</option>
             <option value="Submitted">Submitted</option>
@@ -230,10 +232,10 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
           {/* Radar Sweep Toggle */}
           <button
             onClick={() => setRadarSweepEnabled(!radarSweepEnabled)}
-            className={`p-1.5 rounded border transition-colors ${
+            className={`p-1.5 rounded-lg border transition-colors shadow-xs ${
               radarSweepEnabled
-                ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                : 'bg-slate-900 border-slate-800 text-slate-500'
+                ? 'bg-blue-50 border-blue-300 text-blue-700 dark:bg-cyan-500/20 dark:border-cyan-500/40 dark:text-cyan-300'
+                : 'bg-slate-50 border-slate-200 text-slate-400'
             }`}
             title="Toggle S.T.A.R.K. Radar Sweep Overlay"
           >
@@ -245,36 +247,36 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
       {/* Map & Detail Split View */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Leaflet Map Canvas */}
-        <div className="lg:col-span-2 relative h-[520px] rounded-lg overflow-hidden border border-cyan-500/20 stark-panel">
+        <div className="lg:col-span-2 relative h-[520px] rounded-xl overflow-hidden border border-slate-200 dark:border-cyan-500/20 stark-panel shadow-sm">
           <div ref={mapContainerRef} className="w-full h-full z-0" />
 
           {/* Holographic Radar Sweep Animation Overlay */}
           {radarSweepEnabled && (
-            <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden stark-scanline opacity-40" />
+            <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden stark-scanline opacity-30 dark:opacity-40" />
           )}
 
           {/* Map Legend Floating Dock */}
-          <div className="absolute bottom-3 left-3 z-20 p-2.5 rounded bg-slate-950/85 backdrop-blur border border-cyan-500/20 text-[10px] font-mono space-y-1.5 shadow-xl">
-            <div className="text-cyan-400 font-bold uppercase tracking-wider">MAP TELEMETRY KEY</div>
+          <div className="absolute bottom-3 left-3 z-20 p-3 rounded-xl bg-white/95 dark:bg-slate-950/85 backdrop-blur border border-slate-200 dark:border-cyan-500/20 text-[10px] font-mono space-y-1.5 shadow-lg">
+            <div className="text-blue-700 dark:text-cyan-400 font-bold uppercase tracking-wider">MAP TELEMETRY KEY</div>
             <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1.5 text-rose-400">
-                <span className="w-2 h-2 rounded-full bg-rose-500" />
+              <span className="flex items-center gap-1.5 text-rose-700 dark:text-rose-400 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-600" />
                 Critical
               </span>
-              <span className="flex items-center gap-1.5 text-amber-400">
-                <span className="w-2 h-2 rounded-full bg-amber-500" />
+              <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                 High
               </span>
-              <span className="flex items-center gap-1.5 text-cyan-400">
-                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+              <span className="flex items-center gap-1.5 text-blue-700 dark:text-cyan-400 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
                 Medium
               </span>
-              <span className="flex items-center gap-1.5 text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
                 Resolved
               </span>
             </div>
-            <div className="text-slate-400 text-[9px] pt-1 border-t border-slate-800">
+            <div className="text-slate-500 dark:text-slate-400 text-[9px] pt-1 border-t border-slate-100 dark:border-slate-800">
               Red Dashed Ring: Spatial Duplicate Cluster Zone
             </div>
           </div>
@@ -283,9 +285,9 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
         {/* Selected Issue Preview / Inspector Card */}
         <div className="space-y-4">
           {activeReportDetail ? (
-            <div className="stark-panel rounded-lg p-4 border border-cyan-500/30 space-y-3.5 animate-fadeIn">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                <span className="text-xs font-mono font-bold text-cyan-400">
+            <div className="stark-panel rounded-xl p-5 border border-blue-200 dark:border-cyan-500/30 bg-white dark:bg-slate-900 shadow-sm space-y-3.5 animate-fadeIn">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+                <span className="text-xs font-mono font-bold text-blue-700 dark:text-cyan-400">
                   {activeReportDetail.id}
                 </span>
                 <div className="flex items-center gap-1.5">
@@ -296,50 +298,50 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
 
               {/* Photo */}
               {activeReportDetail.imageUrl && (
-                <div className="relative aspect-video rounded overflow-hidden border border-slate-800 bg-slate-950">
+                <div className="relative aspect-video rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950">
                   <img
                     src={activeReportDetail.imageUrl}
                     alt={activeReportDetail.title}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-slate-950/80 text-[10px] font-mono text-cyan-400 border border-slate-800">
+                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-white/90 dark:bg-slate-950/80 text-[10px] font-mono text-blue-700 dark:text-cyan-400 font-semibold border border-slate-200 dark:border-slate-800">
                     {activeReportDetail.category}
                   </div>
                 </div>
               )}
 
               <div className="space-y-1">
-                <h4 className="text-sm font-semibold text-slate-100">
+                <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                   {activeReportDetail.title}
                 </h4>
-                <p className="text-xs text-slate-400 line-clamp-3">
+                <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3">
                   {activeReportDetail.description}
                 </p>
               </div>
 
-              <div className="p-2.5 rounded bg-slate-900/60 border border-slate-800 text-xs font-mono space-y-1">
-                <div className="text-slate-400 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-xs font-mono space-y-1">
+                <div className="text-slate-700 dark:text-slate-400 flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400 shrink-0" />
                   <span>{activeReportDetail.location.address}</span>
                 </div>
                 <div className="text-[11px] text-slate-500">
                   Ward: {activeReportDetail.location.area} · Reported by {activeReportDetail.reportedBy.name}
                 </div>
                 {activeReportDetail.assignedDepartment && (
-                  <div className="text-[11px] text-cyan-300">
+                  <div className="text-[11px] text-blue-700 dark:text-cyan-300 font-medium">
                     Dept: {activeReportDetail.assignedDepartment}
                   </div>
                 )}
               </div>
 
               {activeReportDetail.aiAnalysis && (
-                <div className="p-2.5 rounded bg-cyan-950/20 border border-cyan-500/20 text-xs font-mono space-y-1">
-                  <div className="flex justify-between text-cyan-400 font-semibold">
+                <div className="p-3 rounded-lg bg-blue-50/70 dark:bg-cyan-950/20 border border-blue-200 dark:border-cyan-500/20 text-xs font-mono space-y-1">
+                  <div className="flex justify-between text-blue-800 dark:text-cyan-400 font-bold">
                     <span>AI Urgency Assessment</span>
                     <span>{activeReportDetail.aiAnalysis.urgencyScore}/10</span>
                   </div>
-                  <p className="text-[11px] text-slate-300">
+                  <p className="text-[11px] text-slate-700 dark:text-slate-300">
                     {activeReportDetail.aiAnalysis.reasoning}
                   </p>
                 </div>
@@ -350,17 +352,17 @@ export const CivicIntelligenceMap: React.FC<CivicIntelligenceMapProps> = ({
                   starkSound.playClick();
                   onSelectReport(activeReportDetail.id);
                 }}
-                className="w-full py-2 text-xs font-mono font-bold rounded bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                className="w-full py-2.5 text-xs font-mono font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-400 dark:text-slate-950 transition-all flex items-center justify-center gap-1.5 shadow-sm"
               >
                 <span>Open Full Investigation Docket</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </button>
             </div>
           ) : (
-            <div className="stark-panel rounded-lg p-6 border border-cyan-500/20 text-center space-y-3 flex flex-col items-center justify-center h-full min-h-[300px]">
-              <Eye className="w-10 h-10 text-cyan-500/40" />
+            <div className="stark-panel rounded-xl p-6 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900 text-center space-y-3 flex flex-col items-center justify-center h-full min-h-[300px] shadow-sm">
+              <Eye className="w-10 h-10 text-blue-500/50 dark:text-cyan-500/40" />
               <div className="space-y-1">
-                <h4 className="text-xs font-mono font-semibold text-slate-300 uppercase">
+                <h4 className="text-xs font-mono font-bold text-slate-800 dark:text-slate-300 uppercase">
                   GEO-TELEMETRY INSPECTOR
                 </h4>
                 <p className="text-xs text-slate-500 max-w-xs mx-auto">

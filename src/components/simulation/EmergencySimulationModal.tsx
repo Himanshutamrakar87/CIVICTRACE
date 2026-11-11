@@ -141,7 +141,7 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
         particleCount: 120,
         spread: 80,
         origin: { y: 0.6 },
-        colors: ['#06b6d4', '#ef4444', '#10b981', '#f59e0b'],
+        colors: ['#2563eb', '#ef4444', '#10b981', '#f59e0b'],
       });
       starkSound.playSuccess();
     }
@@ -164,34 +164,34 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-xl overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xl overflow-y-auto">
       {/* Cinematic AI INCIDENT DETECTED HUD Animation Screen */}
       {isCinematicAlertShowing && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 stark-grid-bg animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/95 dark:bg-slate-950/95 stark-grid-bg animate-fadeIn">
           <div className="relative flex items-center justify-center">
             {/* Pulsing Concentric Warning Rings */}
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-rose-500/30 animate-ping [animation-duration:2s] absolute" />
             <div className="w-52 h-52 md:w-64 md:h-64 rounded-full border border-dashed border-rose-400/50 animate-spin [animation-duration:8s] absolute" />
-            <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-rose-950/80 border-2 border-rose-500 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(244,63,94,0.7)] z-10">
-              <AlertTriangle className="w-14 h-14 text-rose-300 animate-bounce" />
+            <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-rose-50 dark:bg-rose-950/80 border-2 border-rose-500 flex flex-col items-center justify-center shadow-[0_4px_30px_rgba(244,63,94,0.3)] z-10">
+              <AlertTriangle className="w-14 h-14 text-rose-600 dark:text-rose-300 animate-bounce" />
             </div>
           </div>
 
           <div className="text-center space-y-2 mt-8 z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-rose-950/80 border border-rose-500/60 text-rose-300 font-mono text-xs font-bold tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/80 border border-rose-300 dark:border-rose-500/60 text-rose-700 dark:text-rose-300 font-mono text-xs font-bold tracking-widest uppercase shadow-xs">
               <span>S.T.A.R.K. THREAT PROTOCOL ACTIVE</span>
             </div>
-            <h2 className="text-2xl md:text-4xl font-extrabold font-tech tracking-wider text-rose-100 uppercase">
+            <h2 className="text-2xl md:text-4xl font-extrabold font-tech tracking-wider text-slate-900 dark:text-rose-100 uppercase">
               AI INCIDENT CLUSTER DETECTED
             </h2>
-            <p className="text-xs md:text-sm font-mono text-rose-300/90 max-w-md mx-auto">
+            <p className="text-xs md:text-sm font-mono text-rose-600 dark:text-rose-300/90 max-w-md mx-auto font-medium">
               3 Concurrent Road Hazard Reports Converging on Birla Road (Satna Grid Node 04)
             </p>
           </div>
 
           <button
             onClick={() => setIsCinematicAlertShowing(false)}
-            className="mt-8 px-6 py-2 rounded bg-rose-500 text-slate-950 font-mono text-xs font-bold shadow-[0_0_20px_rgba(244,63,94,0.6)] hover:bg-rose-400 transition-all"
+            className="mt-8 px-6 py-2.5 rounded-xl bg-rose-600 text-white font-mono text-xs font-bold shadow-md hover:bg-rose-700 transition-all"
           >
             Enter Interactive Emergency Investigation →
           </button>
@@ -199,30 +199,30 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
       )}
 
       {/* Main Interactive Simulation Workbench */}
-      <div className="stark-panel rounded-2xl max-w-4xl w-full border border-rose-500/40 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="stark-panel rounded-2xl max-w-4xl w-full border border-rose-200 dark:border-rose-500/40 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Top Header */}
-        <div className="px-6 py-4 bg-slate-950/80 border-b border-rose-500/30 flex items-center justify-between">
+        <div className="px-6 py-4 bg-slate-50 dark:bg-slate-950/80 border-b border-rose-200 dark:border-rose-500/30 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded bg-rose-950 border border-rose-500/50 flex items-center justify-center text-rose-400">
+            <div className="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-950 border border-rose-300 dark:border-rose-500/50 flex items-center justify-center text-rose-600 dark:text-rose-400">
               <AlertTriangle className="w-4 h-4" />
             </div>
             <div>
-              <div className="text-xs font-bold font-mono tracking-wider text-slate-100 uppercase">
+              <div className="text-xs font-bold font-mono tracking-wider text-slate-900 dark:text-slate-100 uppercase">
                 STARK CIVIC EMERGENCY SIMULATION
               </div>
-              <div className="text-[10px] font-mono text-rose-400">
+              <div className="text-[10px] font-mono text-rose-600 dark:text-rose-400 font-medium">
                 Scenario: 3-Citizen Concurrent Pothole Cluster & Verification
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-slate-400">
-              Step <span className="text-cyan-300 font-bold">{currentStep + 1}</span> of {steps.length}
+            <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
+              Step <span className="text-blue-600 dark:text-cyan-300 font-bold">{currentStep + 1}</span> of {steps.length}
             </span>
             <button
               onClick={onClose}
-              className="p-1 rounded text-slate-400 hover:text-slate-200 transition-colors"
+              className="p-1 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -230,66 +230,66 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
         </div>
 
         {/* Step Progress Bar */}
-        <div className="w-full bg-slate-900 h-1.5 flex">
+        <div className="w-full bg-slate-100 dark:bg-slate-900 h-1.5 flex">
           {steps.map((_, idx) => (
             <div
               key={idx}
               className={`h-full flex-1 transition-all duration-300 ${
-                idx <= currentStep ? 'bg-gradient-to-r from-rose-500 to-cyan-400' : 'bg-slate-800'
+                idx <= currentStep ? 'bg-gradient-to-r from-rose-500 to-blue-600' : 'bg-slate-200 dark:bg-slate-800'
               }`}
             />
           ))}
         </div>
 
         {/* Step Content Viewport */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-white dark:bg-slate-900">
           {/* Step Header */}
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs font-mono text-rose-400 font-semibold uppercase">
+            <div className="flex items-center gap-2 text-xs font-mono text-rose-600 dark:text-rose-400 font-bold uppercase">
               <span>Protocol Phase {currentStep + 1}</span>
               <span>·</span>
               <span>Actor: {steps[currentStep].actor}</span>
             </div>
-            <h3 className="text-xl font-bold font-tech text-slate-100">
+            <h3 className="text-xl font-bold font-tech text-slate-900 dark:text-slate-100">
               {steps[currentStep].title}
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-mono">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-mono">
               {steps[currentStep].desc}
             </p>
           </div>
 
           {/* Dynamic Content by Step */}
           {currentStep <= 2 && (
-            <div className="stark-panel rounded-xl p-4 border border-cyan-500/30 space-y-3 bg-slate-950/60">
+            <div className="stark-panel rounded-2xl p-5 border border-blue-200 dark:border-cyan-500/30 space-y-3 bg-slate-50/70 dark:bg-slate-950/60 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono font-bold text-cyan-400">
+                <span className="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400">
                   {SIMULATION_REPORTS[currentStep].id}
                 </span>
                 <StatusLabel status={SIMULATION_REPORTS[currentStep].status} />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="relative aspect-video rounded overflow-hidden border border-slate-800 bg-slate-950">
+                <div className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 shadow-xs">
                   <img
                     src={ASSET_PATHS.incidentPothole}
                     alt="Road Hazard"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded bg-slate-950/80 text-[10px] font-mono text-cyan-400">
+                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-white/90 dark:bg-slate-950/80 text-[10px] font-mono text-blue-700 dark:text-cyan-400 font-medium">
                     GPS: {SIMULATION_REPORTS[currentStep].location.latitude}°N
                   </div>
                 </div>
 
                 <div className="space-y-2 text-xs font-mono">
-                  <div className="text-slate-200 font-semibold">{SIMULATION_REPORTS[currentStep].title}</div>
-                  <p className="text-slate-400 text-[11px] leading-snug">
+                  <div className="text-slate-900 dark:text-slate-200 font-bold">{SIMULATION_REPORTS[currentStep].title}</div>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-snug">
                     {SIMULATION_REPORTS[currentStep].description}
                   </p>
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800 text-[11px] text-slate-300 space-y-0.5">
+                  <div className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-700 dark:text-slate-300 space-y-0.5 shadow-xs">
                     <div>Reporter: {SIMULATION_REPORTS[currentStep].reportedBy.name}</div>
                     <div>Location: {SIMULATION_REPORTS[currentStep].location.address}</div>
-                    <div className="text-rose-400 font-semibold">
+                    <div className="text-rose-600 dark:text-rose-400 font-bold">
                       Severity: {SIMULATION_REPORTS[currentStep].severity}
                     </div>
                   </div>
@@ -299,139 +299,139 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
           )}
 
           {currentStep === 3 && (
-            <div className="stark-panel rounded-xl p-5 border border-cyan-500/40 bg-cyan-950/20 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-300 uppercase">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
+            <div className="stark-panel rounded-2xl p-5 border border-blue-200 dark:border-cyan-500/40 bg-blue-50/50 dark:bg-cyan-950/20 space-y-4 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-700 dark:text-cyan-300 uppercase">
+                <Sparkles className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
                 <span>AUTONOMOUS MULTI-SENSOR SIMILARITY MATRIX</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block">Spatial Distance</span>
-                  <span className="text-xl font-bold text-cyan-400 font-mono">28 meters</span>
-                  <span className="text-[10px] text-emerald-400 block">High Proximity (&lt; 350m threshold)</span>
+                <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Spatial Distance</span>
+                  <span className="text-xl font-bold text-blue-600 dark:text-cyan-400 font-mono">28 meters</span>
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium block">High Proximity (&lt; 350m threshold)</span>
                 </div>
 
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block">Semantic Convergence</span>
-                  <span className="text-xl font-bold text-cyan-400 font-mono">96.4%</span>
-                  <span className="text-[10px] text-emerald-400 block">Identical asphalt crater descriptors</span>
+                <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Semantic Convergence</span>
+                  <span className="text-xl font-bold text-blue-600 dark:text-cyan-400 font-mono">96.4%</span>
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium block">Identical asphalt crater descriptors</span>
                 </div>
 
-                <div className="p-3 rounded bg-slate-900/80 border border-slate-800 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block">Category Alignment</span>
-                  <span className="text-xl font-bold text-cyan-400 font-mono">100% Match</span>
-                  <span className="text-[10px] text-emerald-400 block">Road Maintenance & Highway</span>
+                <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 shadow-xs">
+                  <span className="text-[10px] text-slate-500 uppercase block font-semibold">Category Alignment</span>
+                  <span className="text-xl font-bold text-blue-600 dark:text-cyan-400 font-mono">100% Match</span>
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium block">Road Maintenance & Highway</span>
                 </div>
               </div>
 
-              <div className="p-3 rounded bg-slate-900/90 border border-cyan-500/30 text-xs font-mono text-slate-200">
-                <strong className="text-cyan-300">AI Diagnostic:</strong> The 3 independent citizen reports (Aarav, Priya, Rohan) reference the identical bitumen structural failure at Birla Road / Cement Depot Crossing. Merging recommended to eliminate duplicate contractor dispatch.
+              <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-blue-200 dark:border-cyan-500/30 text-xs font-mono text-slate-700 dark:text-slate-200 shadow-xs">
+                <strong className="text-blue-700 dark:text-cyan-300">AI Diagnostic:</strong> The 3 independent citizen reports (Aarav, Priya, Rohan) reference the identical bitumen structural failure at Birla Road / Cement Depot Crossing. Merging recommended to eliminate duplicate contractor dispatch.
               </div>
             </div>
           )}
 
           {currentStep === 4 && (
-            <div className="stark-panel rounded-xl p-5 border border-rose-500/40 bg-rose-950/20 space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-rose-500/30">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-rose-300 uppercase">
-                  <Layers className="w-4 h-4 text-rose-400" />
+            <div className="stark-panel rounded-2xl p-5 border border-rose-200 dark:border-rose-500/40 bg-rose-50/50 dark:bg-rose-950/20 space-y-4 shadow-sm">
+              <div className="flex items-center justify-between pb-2 border-b border-rose-200 dark:border-rose-500/30">
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-rose-700 dark:text-rose-300 uppercase">
+                  <Layers className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                   <span>INCIDENT CLUSTER FORMATION: {INITIAL_CLUSTERS[0].name}</span>
                 </div>
-                <span className="text-xs font-mono font-bold text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-500/50">
+                <span className="text-xs font-mono font-bold text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-950 px-2 py-0.5 rounded-lg border border-rose-300 dark:border-rose-500/50">
                   Combined Impact: 9.4 / 10
                 </span>
               </div>
 
-              <p className="text-xs text-slate-300 font-mono leading-relaxed">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-mono leading-relaxed">
                 By aggregating 3 citizen reports, S.T.A.R.K. elevates the public hazard rating from Moderate to Critical. Collective report density signals an imminent high-fatality risk for night commuters.
               </p>
 
               <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
-                <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-slate-400 text-[10px]">Combined Upvotes</div>
-                  <div className="text-lg font-bold text-cyan-300">61 Citizens</div>
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <div className="text-slate-500 text-[10px]">Combined Upvotes</div>
+                  <div className="text-lg font-bold text-blue-600 dark:text-cyan-300">61 Citizens</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-slate-400 text-[10px]">Triage Priority</div>
-                  <div className="text-lg font-bold text-rose-400">94 / 100</div>
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <div className="text-slate-500 text-[10px]">Triage Priority</div>
+                  <div className="text-lg font-bold text-rose-600 dark:text-rose-400">94 / 100</div>
                 </div>
-                <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                  <div className="text-slate-400 text-[10px]">Recommended Action</div>
-                  <div className="text-lg font-bold text-amber-300">Rapid Paving</div>
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+                  <div className="text-slate-500 text-[10px]">Recommended Action</div>
+                  <div className="text-lg font-bold text-amber-600 dark:text-amber-300">Rapid Paving</div>
                 </div>
               </div>
             </div>
           )}
 
           {currentStep === 5 && (
-            <div className="stark-panel rounded-xl p-5 border border-cyan-500/40 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs font-mono">
-                <span className="text-cyan-400 font-bold uppercase flex items-center gap-1.5">
+            <div className="stark-panel rounded-2xl p-5 border border-blue-200 dark:border-cyan-500/40 bg-white dark:bg-slate-900 space-y-3 shadow-sm">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800 text-xs font-mono">
+                <span className="text-blue-700 dark:text-cyan-400 font-bold uppercase flex items-center gap-1.5">
                   <MapPin className="w-4 h-4" />
                   GIS SPATIAL CORRIDOR PLOTTED (SATNA)
                 </span>
                 <button
                   onClick={onOpenMap}
-                  className="text-cyan-300 underline hover:text-cyan-200"
+                  className="text-blue-600 dark:text-cyan-300 font-bold underline hover:text-blue-700"
                 >
                   Inspect in Live GIS Map
                 </button>
               </div>
 
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono space-y-2">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-mono space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Coordinates:</span>
-                  <span className="text-cyan-300">24.5891°N, 80.8354°E</span>
+                  <span className="text-slate-500">Coordinates:</span>
+                  <span className="text-blue-600 dark:text-cyan-300 font-bold">24.5891°N, 80.8354°E</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Corridor Landmark:</span>
-                  <span className="text-slate-200">Birla Road, Opp Truck Weigh Scale</span>
+                  <span className="text-slate-500">Corridor Landmark:</span>
+                  <span className="text-slate-800 dark:text-slate-200 font-medium">Birla Road, Opp Truck Weigh Scale</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Traffic Congestion Index:</span>
-                  <span className="text-rose-400 font-bold">Severe (Freight bottleneck)</span>
+                  <span className="text-slate-500">Traffic Congestion Index:</span>
+                  <span className="text-rose-600 dark:text-rose-400 font-bold">Severe (Freight bottleneck)</span>
                 </div>
               </div>
             </div>
           )}
 
           {currentStep === 6 && (
-            <div className="stark-panel rounded-xl p-5 border border-amber-500/40 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-300 uppercase">
-                <Merge className="w-4 h-4 text-amber-400" />
+            <div className="stark-panel rounded-2xl p-5 border border-amber-200 dark:border-amber-500/40 bg-amber-50/40 dark:bg-transparent space-y-4 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-800 dark:text-amber-300 uppercase">
+                <Merge className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>ADMINISTRATOR ACTION: MERGE DUPLICATES</span>
               </div>
 
-              <p className="text-xs text-slate-300 font-mono leading-relaxed">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-mono leading-relaxed">
                 Administrator Director Stark-01 reviews the 3 reports side-by-side, verifies physical overlap, and merges reports STARK-SIM-002 and STARK-SIM-003 into Primary Master Docket [STARK-SIM-001].
               </p>
 
-              <div className="p-3 rounded bg-emerald-950/40 border border-emerald-500/30 text-xs font-mono text-emerald-300 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+              <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono text-emerald-800 dark:text-emerald-300 flex items-center gap-2 shadow-xs">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
                 <span>Tickets merged. Duplicate contractor assignments averted. Master docket active.</span>
               </div>
             </div>
           )}
 
           {currentStep === 7 && (
-            <div className="stark-panel rounded-xl p-5 border border-cyan-500/30 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-300 uppercase">
-                <Shield className="w-4 h-4 text-cyan-400" />
+            <div className="stark-panel rounded-2xl p-5 border border-blue-200 dark:border-cyan-500/30 bg-white dark:bg-slate-900 space-y-4 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-700 dark:text-cyan-300 uppercase">
+                <Shield className="w-4 h-4 text-blue-600 dark:text-cyan-400" />
                 <span>MUNICIPAL CREW DISPATCH</span>
               </div>
 
-              <div className="p-3.5 rounded bg-slate-900 border border-slate-800 text-xs font-mono space-y-2">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-mono space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Assigned Department:</span>
-                  <span className="text-cyan-300 font-semibold">Road Maintenance & Highway Infrastructure</span>
+                  <span className="text-slate-500">Assigned Department:</span>
+                  <span className="text-blue-700 dark:text-cyan-300 font-bold">Road Maintenance & Highway Infrastructure</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Officer in Charge:</span>
-                  <span className="text-slate-200">Eng. Rajesh Verma</span>
+                  <span className="text-slate-500">Officer in Charge:</span>
+                  <span className="text-slate-800 dark:text-slate-200 font-medium">Eng. Rajesh Verma</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Status Update:</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-500">Status Update:</span>
                   <StatusLabel status="In Progress" />
                 </div>
               </div>
@@ -439,62 +439,62 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
           )}
 
           {currentStep === 8 && (
-            <div className="stark-panel rounded-xl p-5 border border-emerald-500/40 space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase">
-                <CheckCircle2 className="w-4 h-4" />
+            <div className="stark-panel rounded-2xl p-5 border border-emerald-200 dark:border-emerald-500/40 bg-white dark:bg-slate-900 space-y-4 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400 uppercase">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>ROADWORK RESTORATION & AFTER-PHOTO VERIFICATION</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase">Before Repair</span>
-                  <div className="aspect-video rounded overflow-hidden border border-slate-800">
+                  <span className="text-[11px] font-mono text-slate-500 uppercase font-semibold">Before Repair</span>
+                  <div className="aspect-video rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
                     <img src={ASSET_PATHS.incidentPothole} alt="Before" className="w-full h-full object-cover" />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[11px] font-mono text-emerald-400 uppercase">After Repair (Hot-Mix Paved)</span>
-                  <div className="aspect-video rounded overflow-hidden border border-emerald-500/50">
+                  <span className="text-[11px] font-mono text-emerald-700 dark:text-emerald-400 uppercase font-bold">After Repair (Hot-Mix Paved)</span>
+                  <div className="aspect-video rounded-xl overflow-hidden border-2 border-emerald-400">
                     <img src={ASSET_PATHS.resolutionRepaired} alt="After" className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
 
-              <p className="text-xs font-mono text-slate-300">
+              <p className="text-xs font-mono text-slate-600 dark:text-slate-300">
                 Engineer Rajesh Verma uploads official site photo with timestamped compaction verification.
               </p>
             </div>
           )}
 
           {currentStep === 9 && (
-            <div className="stark-panel rounded-xl p-5 border border-emerald-500/50 bg-emerald-950/20 space-y-4 text-center">
-              <div className="w-12 h-12 mx-auto rounded-full bg-emerald-950 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)]">
-                <CheckCircle2 className="w-7 h-7" />
+            <div className="stark-panel rounded-2xl p-6 border border-emerald-200 dark:border-emerald-500/50 bg-emerald-50/70 dark:bg-emerald-950/20 space-y-4 text-center shadow-sm">
+              <div className="w-14 h-14 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center text-emerald-700 dark:text-emerald-400 shadow-sm">
+                <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div className="space-y-1">
-                <h4 className="text-lg font-bold font-tech text-emerald-300 uppercase">
+                <h4 className="text-lg font-bold font-tech text-emerald-800 dark:text-emerald-300 uppercase">
                   CITIZEN ACCOUNTABILITY CONFIRMED
                 </h4>
-                <p className="text-xs font-mono text-slate-300 max-w-md mx-auto">
+                <p className="text-xs font-mono text-slate-600 dark:text-slate-300 max-w-md mx-auto">
                   Citizen Aarav Sharma confirms the repair is complete and safe. Incident docket successfully closed with full audit history!
                 </p>
               </div>
 
-              <div className="p-3 rounded bg-slate-900/80 border border-slate-800 text-xs font-mono text-slate-300 max-w-sm mx-auto">
-                <span className="text-amber-400 font-bold">5/5 Stars Verified</span> · "Clean asphalt patch flush with street level. Hazard completely eliminated."
+              <div className="p-3 rounded-xl bg-white dark:bg-slate-900/80 border border-emerald-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 max-w-sm mx-auto shadow-xs">
+                <span className="text-amber-500 font-bold">5/5 Stars Verified</span> · "Clean asphalt patch flush with street level. Hazard completely eliminated."
               </div>
             </div>
           )}
         </div>
 
         {/* Footer Navigation Bar */}
-        <div className="px-6 py-4 bg-slate-950/80 border-t border-slate-800 flex items-center justify-between">
+        <div className="px-6 py-4 bg-slate-50 dark:bg-slate-950/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
           <button
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className="px-4 py-2 text-xs font-mono rounded border border-slate-800 text-slate-400 hover:text-slate-200 disabled:opacity-30 transition-colors"
+            className="px-4 py-2 text-xs font-mono rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-50 disabled:opacity-30 transition-colors shadow-xs"
           >
             ← Previous Phase
           </button>
@@ -503,7 +503,7 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
             {currentStep < steps.length - 1 ? (
               <button
                 onClick={handleNext}
-                className="px-5 py-2 text-xs font-mono font-bold rounded bg-gradient-to-r from-rose-500 to-cyan-400 text-slate-950 hover:from-rose-400 hover:to-cyan-300 transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                className="px-5 py-2 text-xs font-mono font-bold rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all flex items-center gap-1.5 shadow-sm"
               >
                 <span>Advance Simulation Phase</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -511,7 +511,7 @@ export const EmergencySimulationModal: React.FC<EmergencySimulationModalProps> =
             ) : (
               <button
                 onClick={handleCompleteSimulation}
-                className="px-6 py-2.5 text-xs font-mono font-bold rounded bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition-all shadow-[0_0_20px_rgba(16,185,129,0.5)] flex items-center gap-2"
+                className="px-6 py-2.5 text-xs font-mono font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all shadow-sm flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Apply Simulation to Live Application</span>

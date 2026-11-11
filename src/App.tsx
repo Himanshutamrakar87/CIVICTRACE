@@ -25,6 +25,22 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('overview');
   const [userRole, setUserRole] = useState<'Citizen' | 'Admin'>('Citizen');
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  // Synchronize document theme class
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+    }
+  }, [theme]);
+
+  const handleThemeToggle = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   // Data states
   const [reports, setReports] = useState<CivicReport[]>(INITIAL_REPORTS);
@@ -113,7 +129,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200 antialiased stark-grid-bg">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-500/20 selection:text-blue-900 antialiased stark-grid-bg transition-colors">
       {viewMode === 'landing' ? (
         <CommandEntryScreen
           stats={stats}
@@ -151,6 +167,8 @@ export default function App() {
             onOpenReportForm={() => setCurrentTab('report_form')}
             onOpenAssistant={() => setIsAssistantOpen(true)}
             activeCriticalCount={stats.criticalIssues}
+            theme={theme}
+            onThemeToggle={handleThemeToggle}
           />
 
           {/* Main Body Layout: Sidebar + Viewport */}

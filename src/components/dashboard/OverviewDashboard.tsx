@@ -92,13 +92,13 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Telemetry Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-cyan-900/30">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-blue-100 dark:border-cyan-900/30">
         <div>
-          <h2 className="text-xl font-bold font-tech tracking-wide text-slate-100 uppercase flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+          <h2 className="text-xl font-bold font-tech tracking-wide text-slate-900 dark:text-slate-100 uppercase flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse shadow-sm" />
             Civic Intelligence Command Center — Satna Node
           </h2>
-          <p className="text-xs font-mono text-slate-400 mt-0.5">
+          <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mt-0.5">
             Real-time urban telemetry, autonomous incident triage & citizen verification
           </p>
         </div>
@@ -109,9 +109,9 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               starkSound.playClick();
               onOpenMap();
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded bg-slate-900 border border-cyan-500/30 text-cyan-300 hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-cyan-500/30 text-slate-700 dark:text-cyan-300 hover:border-blue-400 hover:text-blue-600 transition-colors shadow-xs"
           >
-            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+            <MapPin className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
             <span>Map View</span>
           </button>
 
@@ -120,7 +120,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               starkSound.playClick();
               onOpenReportForm();
             }}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-mono font-semibold rounded bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 hover:bg-cyan-500/30 transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)]"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-mono font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white dark:bg-cyan-500/20 dark:border dark:border-cyan-400/50 dark:text-cyan-300 transition-all shadow-sm"
           >
             <span>+ Report Incident</span>
           </button>
@@ -129,21 +129,21 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
 
       {/* Critical Emergency Banner if exists */}
       {criticalReports.length > 0 && (
-        <div className="stark-crimson-panel rounded-lg p-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="stark-crimson-panel rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded bg-rose-500/20 border border-rose-500/50 flex items-center justify-center shrink-0 text-rose-400 animate-pulse">
+            <div className="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-500/20 border border-rose-300 dark:border-rose-500/50 flex items-center justify-center shrink-0 text-rose-600 dark:text-rose-400">
               <AlertTriangle className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-rose-300">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-rose-700 dark:text-rose-300">
                   CRITICAL INCIDENT ALERT
                 </span>
-                <span className="text-[11px] font-mono text-rose-400/80">
+                <span className="text-[11px] font-mono text-rose-600/90 dark:text-rose-400/80 font-medium">
                   {criticalReports.length} Active Hazard(s) Requiring Priority Dispatch
                 </span>
               </div>
-              <p className="text-xs text-slate-300 mt-0.5">
+              <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5">
                 {criticalReports[0].title} — {criticalReports[0].location.area} ({criticalReports[0].location.address})
               </p>
             </div>
@@ -155,7 +155,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                 starkSound.playClick();
                 onSelectReport(criticalReports[0].id);
               }}
-              className="px-3 py-1.5 text-xs font-mono font-semibold rounded bg-rose-500/20 border border-rose-400/60 text-rose-200 hover:bg-rose-500/30 transition-all"
+              className="px-3.5 py-1.5 text-xs font-mono font-bold rounded-lg bg-rose-600 text-white hover:bg-rose-700 dark:bg-rose-500/20 dark:border dark:border-rose-400/60 dark:text-rose-200 transition-all shadow-xs"
             >
               Inspect Docket
             </button>
@@ -168,13 +168,13 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         <StatCard
           label="Total Reports"
           value={stats.totalReports}
-          accent="cyan"
+          accent="blue"
           subtext="Official ledger"
         />
         <StatCard
           label="Active Issues"
           value={stats.activeIssues}
-          accent="blue"
+          accent="cyan"
           subtext="Under workflow"
         />
         <StatCard
@@ -209,22 +209,22 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Live Incident Feed & Filters */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="stark-panel rounded-lg p-4 border border-cyan-500/20">
+          <div className="stark-panel rounded-xl p-5 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900/60 shadow-sm">
             {/* Filter & Search Bar */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 <input
                   type="text"
                   placeholder="Search by ID, title, road, or area..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-900/80 border border-slate-800 rounded pl-9 pr-3 py-1.5 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
+                  className="w-full bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs font-mono text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
                 />
               </div>
 
               {/* Status Segmented Controls */}
-              <div className="flex items-center gap-1.5 p-1 bg-slate-900 rounded border border-slate-800 text-[11px] font-mono overflow-x-auto">
+              <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 text-[11px] font-mono overflow-x-auto">
                 {['ALL', 'Submitted', 'In Progress', 'Resolved'].map((st) => (
                   <button
                     key={st}
@@ -232,10 +232,10 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                       starkSound.playClick();
                       setSelectedStatus(st);
                     }}
-                    className={`px-2.5 py-1 rounded transition-colors whitespace-nowrap ${
+                    className={`px-2.5 py-1 rounded-md transition-colors whitespace-nowrap font-medium ${
                       selectedStatus === st
-                        ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30'
-                        : 'text-slate-400 hover:text-slate-200'
+                        ? 'bg-white dark:bg-cyan-500/20 text-blue-600 dark:text-cyan-300 font-bold shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
                     }`}
                   >
                     {st}
@@ -244,17 +244,17 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
               </div>
             </div>
 
-            {/* Category Filter Pills (Functional Buttons) */}
-            <div className="flex items-center gap-2 py-3 overflow-x-auto text-xs font-mono border-b border-slate-800/60">
+            {/* Category Filter Buttons */}
+            <div className="flex items-center gap-1.5 py-3 overflow-x-auto text-xs font-mono border-b border-slate-100 dark:border-slate-800/60">
               <button
                 onClick={() => {
                   starkSound.playClick();
                   setSelectedCategory('ALL');
                 }}
-                className={`px-2.5 py-1 rounded transition-colors whitespace-nowrap ${
+                className={`px-2.5 py-1 rounded-lg transition-colors whitespace-nowrap ${
                   selectedCategory === 'ALL'
-                    ? 'bg-slate-800 text-cyan-300 border border-cyan-500/40 font-semibold'
-                    : 'text-slate-400 hover:text-slate-300 border border-transparent'
+                    ? 'bg-blue-50 border border-blue-200 text-blue-700 dark:bg-slate-800 dark:text-cyan-300 dark:border-cyan-500/40 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300'
                 }`}
               >
                 All Departments
@@ -266,10 +266,10 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                     starkSound.playClick();
                     setSelectedCategory(cat);
                   }}
-                  className={`px-2.5 py-1 rounded transition-colors whitespace-nowrap ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors whitespace-nowrap ${
                     selectedCategory === cat
-                      ? 'bg-slate-800 text-cyan-300 border border-cyan-500/40 font-semibold'
-                      : 'text-slate-400 hover:text-slate-300 border border-transparent'
+                      ? 'bg-blue-50 border border-blue-200 text-blue-700 dark:bg-slate-800 dark:text-cyan-300 dark:border-cyan-500/40 font-bold'
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300'
                   }`}
                 >
                   {cat}
@@ -278,9 +278,9 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
             </div>
 
             {/* Incident Records Feed */}
-            <div className="divide-y divide-slate-800/80 mt-2">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800/80 mt-1">
               {filteredReports.length === 0 ? (
-                <div className="py-12 text-center text-slate-500 font-mono text-xs">
+                <div className="py-12 text-center text-slate-400 font-mono text-xs">
                   No civic reports matching the specified filter criteria.
                 </div>
               ) : (
@@ -291,40 +291,40 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                       starkSound.playClick();
                       onSelectReport(report.id);
                     }}
-                    className="py-3 px-2 rounded hover:bg-slate-900/50 transition-colors cursor-pointer group flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="py-3 px-2 rounded-lg hover:bg-blue-50/50 dark:hover:bg-slate-900/50 transition-colors cursor-pointer group flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                   >
                     <div className="space-y-1.5 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 text-xs">
-                        <span className="font-mono text-cyan-400 font-semibold">{report.id}</span>
-                        <span className="text-slate-600">·</span>
+                        <span className="font-mono text-blue-600 dark:text-cyan-400 font-bold">{report.id}</span>
+                        <span className="text-slate-300 dark:text-slate-600">·</span>
                         <StatusLabel status={report.status} />
                         <SeverityBadge severity={report.severity} />
                         {report.isDuplicate && (
-                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded border border-amber-500/40 text-amber-300 bg-amber-950/40">
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded border border-amber-300 text-amber-800 bg-amber-50 dark:border-amber-500/40 dark:text-amber-300 dark:bg-amber-950/40 font-medium">
                             Merged Duplicate
                           </span>
                         )}
                         {report.duplicateReportIds && report.duplicateReportIds.length > 0 && (
-                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded border border-cyan-500/40 text-cyan-300 bg-cyan-950/40 flex items-center gap-1">
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded border border-blue-200 text-blue-700 bg-blue-50 dark:border-cyan-500/40 dark:text-cyan-300 dark:bg-cyan-950/40 flex items-center gap-1 font-medium">
                             <Layers className="w-2.5 h-2.5" />
                             {report.duplicateReportIds.length} Linked Reports
                           </span>
                         )}
                       </div>
 
-                      <h4 className="text-sm font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors truncate">
+                      <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-cyan-300 transition-colors truncate">
                         {report.title}
                       </h4>
 
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-400">
-                        <span className="text-slate-300">{report.category}</span>
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                        <span className="text-slate-700 dark:text-slate-300 font-medium">{report.category}</span>
                         <span>·</span>
-                        <span className="flex items-center gap-1 text-slate-400">
-                          <MapPin className="w-3 h-3 text-cyan-500" />
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-blue-600 dark:text-cyan-500" />
                           {report.location.area} ({report.location.address})
                         </span>
                         <span>·</span>
-                        <span className="text-slate-400">
+                        <span>
                           {new Date(report.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -334,12 +334,12 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
                       {report.aiAnalysis && (
                         <div className="text-right hidden sm:block">
                           <div className="text-[10px] font-mono text-slate-400">Urgency Score</div>
-                          <div className="text-sm font-mono font-bold text-cyan-300">
+                          <div className="text-sm font-mono font-bold text-blue-600 dark:text-cyan-300">
                             {report.aiAnalysis.urgencyScore}/10
                           </div>
                         </div>
                       )}
-                      <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-slate-400 group-hover:text-cyan-300 group-hover:border-cyan-500/40 transition-colors">
+                      <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 group-hover:text-blue-600 group-hover:border-blue-300 dark:group-hover:text-cyan-300 transition-colors">
                         <ExternalLink className="w-4 h-4" />
                       </div>
                     </div>
@@ -353,29 +353,29 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         {/* Right Column: Category Distribution & Live Activity Stream */}
         <div className="space-y-4">
           {/* Category Distribution Card */}
-          <div className="stark-panel rounded-lg p-4 border border-cyan-500/20 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-mono font-semibold tracking-wide text-cyan-400 uppercase">
+          <div className="stark-panel rounded-xl p-5 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900/60 shadow-sm space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-xs font-mono font-bold tracking-wide text-blue-700 dark:text-cyan-400 uppercase">
                 DEPARTMENT WORKLOAD ALLOCATION
               </span>
-              <Activity className="w-3.5 h-3.5 text-cyan-400" />
+              <Activity className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
             </div>
 
-            <div className="space-y-2.5 text-xs font-mono">
+            <div className="space-y-3 text-xs font-mono">
               {categoryCounts.map((cat) => {
                 const total = reports.length || 1;
                 const percent = Math.round((cat.count / total) * 100);
                 return (
                   <div key={cat.name} className="space-y-1">
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-slate-300 truncate">{cat.name}</span>
-                      <span className="text-slate-400 tabular-nums">
+                      <span className="text-slate-800 dark:text-slate-300 truncate font-medium">{cat.name}</span>
+                      <span className="text-slate-500 dark:text-slate-400 tabular-nums">
                         {cat.count} total ({cat.active} active)
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800">
                       <div
-                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-cyan-500 dark:to-blue-500 rounded-full transition-all duration-500"
                         style={{ width: `${percent}%` }}
                       />
                     </div>
@@ -386,41 +386,41 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
           </div>
 
           {/* Area Density Card */}
-          <div className="stark-panel rounded-lg p-4 border border-cyan-500/20 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-mono font-semibold tracking-wide text-cyan-400 uppercase">
+          <div className="stark-panel rounded-xl p-5 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900/60 shadow-sm space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-xs font-mono font-bold tracking-wide text-blue-700 dark:text-cyan-400 uppercase">
                 SATNA WARD CONCENTRATION
               </span>
-              <TrendingUp className="w-3.5 h-3.5 text-cyan-400" />
+              <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
             </div>
 
             <div className="space-y-2 text-xs font-mono">
               {areaCounts.map((area) => (
-                <div key={area.name} className="flex items-center justify-between py-1 border-b border-slate-900/60">
-                  <span className="text-slate-300">{area.name}</span>
-                  <span className="text-cyan-400 font-bold tabular-nums">{area.count} incidents</span>
+                <div key={area.name} className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-900/60">
+                  <span className="text-slate-700 dark:text-slate-300 font-medium">{area.name}</span>
+                  <span className="text-blue-600 dark:text-cyan-400 font-bold tabular-nums">{area.count} incidents</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Recent Activity Timeline Stream */}
-          <div className="stark-panel rounded-lg p-4 border border-cyan-500/20 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-mono font-semibold tracking-wide text-cyan-400 uppercase">
+          <div className="stark-panel rounded-xl p-5 border border-slate-200 dark:border-cyan-500/20 bg-white dark:bg-slate-900/60 shadow-sm space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-xs font-mono font-bold tracking-wide text-blue-700 dark:text-cyan-400 uppercase">
                 GLOBAL ACTIVITY AUDIT LOG
               </span>
-              <Clock className="w-3.5 h-3.5 text-cyan-400" />
+              <Clock className="w-3.5 h-3.5 text-blue-600 dark:text-cyan-400" />
             </div>
 
             <div className="space-y-3 text-xs font-mono">
               {allEvents.map((evt) => (
-                <div key={evt.id} className="relative pl-3 border-l border-cyan-500/30 space-y-0.5">
-                  <div className="flex items-center justify-between text-[10px] text-slate-500">
-                    <span className="text-cyan-400 font-semibold">{evt.actorName}</span>
+                <div key={evt.id} className="relative pl-3 border-l-2 border-blue-500 dark:border-cyan-500/30 space-y-0.5">
+                  <div className="flex items-center justify-between text-[10px] text-slate-400">
+                    <span className="text-blue-600 dark:text-cyan-400 font-bold">{evt.actorName}</span>
                     <span>{new Date(evt.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
-                  <p className="text-[11px] text-slate-300 leading-snug">{evt.note}</p>
+                  <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-snug">{evt.note}</p>
                 </div>
               ))}
             </div>
